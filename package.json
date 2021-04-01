@@ -1,0 +1,23 @@
+{
+  "name": "jquery-petite",
+  "version": "1.0.6",
+  "description": "",
+  "main": "dist/jquery-petite.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build src/jquery-petite.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C01inn/mini-jquery.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C01inn/mini-jquery/issues"
+  },
+  "homepage": "https://github.com/C01inn/mini-jquery#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  }
+}

@@ -1,0 +1,12 @@
+*.py
+*.html
+*.txt
+
+/.cache
+/.cache/*
+/node_modules
+/node_modules/
+babel.config.json
+
+vanilla.md
+common.md
