@@ -1,48 +1,10 @@
-
-function fade(type, elem, ms, prop) {
-    let  isIn = type === 'in'
-        let opacity = isIn ? 0 : 1
-        let interval = 50
-        let duration = ms
-        let gap = interval / duration
-        let self = elem;
-    
-      if(isIn) {
-        if (prop === undefined || prop === null) {
-            self.style.display = 'block';
-        } else {
-            self.style.display = prop
-        }
-
-        self.style.opacity = opacity;
-      }
-    
-      function func() {
-        opacity = isIn ? opacity + gap : opacity - gap;
-        self.style.opacity = opacity;
-    
-        if(opacity <= 0) self.style.display = 'none'
-        if(opacity <= 0 || opacity >= 1) window.clearInterval(fading);
-      }
-    
-      var fading = window.setInterval(func, interval);
-}
-
-//Returns true if it is a DOM element    
-function isNode(o){
-    return (
-      typeof Node === "object" ? o instanceof Node : 
-      o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
-    );
-  }
-
-
 class jQueryPetiteElement {
     
     constructor(element, allElements) {
         this.elem = element;
         this.allElements = allElements;
     }
+
     // hide function
     hide() {
         for (let i=0;i<this.allElements.length;i++) {
@@ -67,16 +29,45 @@ class jQueryPetiteElement {
             this.allElements[i].style[prop] = value;
         }
     }
+    #fade(type, elem, ms, prop) {
+        let  isIn = type === 'in'
+            let opacity = isIn ? 0 : 1
+            let interval = 50
+            let duration = ms
+            let gap = interval / duration
+            let self = elem;
+        
+          if(isIn) {
+            if (prop === undefined || prop === null) {
+                self.style.display = 'block';
+            } else {
+                self.style.display = prop
+            }
+    
+            self.style.opacity = opacity;
+          }
+        
+          function func() {
+            opacity = isIn ? opacity + gap : opacity - gap;
+            self.style.opacity = opacity;
+        
+            if(opacity <= 0) self.style.display = 'none'
+            if(opacity <= 0 || opacity >= 1) window.clearInterval(fading);
+          }
+        
+          var fading = window.setInterval(func, interval);
+    }
+    
     // fadein
     fadeIn(ms, prop) {
         for(let i=0; i<this.allElements.length;i++) {
-            fade("in", this.allElements[i], ms, prop)
+            this.#fade("in", this.allElements[i], ms, prop)
         }
     }
     // fadeout
     fadeOut(ms, prop) {
         for(let i=0; i<this.allElements.length;i++) {
-            fade("out", this.allElements[i], ms, prop)
+            this.#fade("out", this.allElements[i], ms, prop)
         }
     }
     // set innerhtml
@@ -116,19 +107,18 @@ class jQueryPetiteElement {
         return null
     }
     // used as a private function for addClass and removeClass
-    _modifyClass(classToAdd, remove) {
+    #modifyClass(classToAdd, remove) {
         if (classToAdd instanceof Array || typeof classToAdd === 'array') {
             var classesToAdd = classToAdd
         } else if (classToAdd instanceof String || typeof classToAdd === 'string') {
             var classesToAdd = classToAdd.split(" ")
         }
-        console.log(classesToAdd)
+
         // if user passed in array or string
         if (classesToAdd !== undefined && classesToAdd !== null) {
             for (let i=0;i<this.allElements.length;i++) {
                 for (let x=0;x<classesToAdd.length;x++) {
                     if (remove === true ) {
-                        console.log(x, classesToAdd[x])
                         this.allElements[i].classList.remove(classesToAdd[x])
                     } else {
                         this.allElements[i].classList.add(classesToAdd[x])
@@ -156,10 +146,10 @@ class jQueryPetiteElement {
     }
     // add a class css class to an element
     addClass(classToAdd) {
-        this._modifyClass(classToAdd, false);
+        this.#modifyClass(classToAdd, false);
     }
     removeClass(classToRemove) {
-        this._modifyClass(classToRemove, true);
+        this.#modifyClass(classToRemove, true);
     }
     // add event listener
     on(event, callback) {
@@ -204,8 +194,15 @@ class jQueryPetiteElement {
 
 // main $ function
 const $ = (selector) => {
+    //Returns true if it is a DOM element    
+    function _isNode(o){
+        return (
+            typeof Node === "object" ? o instanceof Node : 
+            o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
+        );
+    }
     // user passed in a document node
-    if (isNode(selector)) {
+    if (_isNode(selector)) {
         return new jQueryPetiteElement(selector, [selector]) 
     }
     // has nodes
@@ -215,4 +212,10 @@ const $ = (selector) => {
     }
     // empty
     return new jQueryPetiteElement(null, x)
+}
+try {
+    module.exports = $;
+}
+catch (e) {
+
 }
