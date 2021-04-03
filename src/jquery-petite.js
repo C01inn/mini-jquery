@@ -1,3 +1,25 @@
+// main $ function
+window.$ = (selector) => {
+    //Returns true if it is a DOM element    
+    function _isNode(o){
+        return (
+            typeof Node === "object" ? o instanceof Node : 
+            o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
+        );
+    }
+    // user passed in a document node
+    if (_isNode(selector)) {
+        return new jQueryPetiteElement(selector, [selector]) 
+    }
+    // has nodes
+    let x = document.querySelectorAll(selector)
+    if (x.length > 0) {
+        return new jQueryPetiteElement(x[0], x)
+    }
+    // empty
+    return new jQueryPetiteElement(null, x)
+}
+
 class jQueryPetiteElement {
     
     constructor(element, allElements) {
@@ -25,8 +47,25 @@ class jQueryPetiteElement {
     }
     // set a css property
     css(prop, value) {
-        for(let i=0; i<this.allElements.length;i++) {
-            this.allElements[i].style[prop] = value;
+        // user didn't pass in a value so return the css value
+        if ((value === undefined || value === null) && (typeof prop !== 'object' && prop !== null)) {
+            return this.elem.style[prop]
+        }
+        // used passed in a function as a value
+        if (typeof value === "function") {
+            for (let i=0; i<this.allElements.length;i++) {
+                this.allElements[i].style[prop] = value(i, this.allElements[i].style[prop]);
+            }
+        } else if (typeof prop === 'object' && prop !== null) {
+            for (let i=0; i< this.allElements.length;i++) {
+                for (let key of Object.keys(prop)) {
+                    this.allElements[i].style[key] = prop[key];
+                }
+            }
+        } else { // user didn't pass in a function or an object as a value
+            for(let i=0; i<this.allElements.length;i++) {
+                this.allElements[i].style[prop] = value;
+            }
         }
     }
     #fade(type, elem, ms, prop) {
@@ -186,33 +225,34 @@ class jQueryPetiteElement {
         // user passed in a string or number 
         for(let i =0;i<this.allElements.length;i++) {
             this.allElements[i].value = newValue;
+        }        
+    }
+    // returns the children of a jquerypetiteelement object
+    children(selector) {
+        // if selector passed in
+        let allChilds = []
+        for (let i =0;i<this.allElements.length;i++) {
+            // now selector is passed in
+            let childs;
+            if (selector === null || selector === undefined ||typeof selector === undefined) { 
+                childs = this.allElements[i].children;
+            } else { // selector is passed in
+                childs = this.allElements[i].querySelectorAll(selector)
+            }
+            for (let j=0; j<childs.length;j++) {
+                allChilds.push(childs[j])
+            }
         }
+        if (allChilds.length > 0) {
+            return new jQueryPetiteElement(allChilds[0], allChilds)
+        }
+        return new jQueryPetiteElement(null, [])
     }
 }
 
 
 
-// main $ function
-const $ = (selector) => {
-    //Returns true if it is a DOM element    
-    function _isNode(o){
-        return (
-            typeof Node === "object" ? o instanceof Node : 
-            o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
-        );
-    }
-    // user passed in a document node
-    if (_isNode(selector)) {
-        return new jQueryPetiteElement(selector, [selector]) 
-    }
-    // has nodes
-    let x = document.querySelectorAll(selector)
-    if (x.length > 0) {
-        return new jQueryPetiteElement(x[0], x)
-    }
-    // empty
-    return new jQueryPetiteElement(null, x)
-}
+
 try {
     module.exports = $;
 }

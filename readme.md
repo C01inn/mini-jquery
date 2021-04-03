@@ -1,6 +1,26 @@
 # Jquery Petite
 
-Jquery-petite is an tiny alternative to jquery. Jquery-Petite is less than 1.7kB gzipped compared to over 30kB gzipped for jquery. Jquery petite is very similar to jquery except it kept only the most used methods and reduced the bloat. This package was make to solve the problem of bloat.
+Jquery-petite is an tiny alternative to jquery. Jquery-Petite is less than 1.8kB gzipped compared to over 30kB gzipped for jquery. Jquery petite is very similar to jquery except it kept only the most used methods and reduced the bloat. This package was make to solve the problem of bloat.
+
+## Installing
+
+Using npm:
+
+```
+npm install --save jquery-petite
+```
+
+Using jsDelivr CDN:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/jquery-petite@1.0.8/dist/jquery-petite.js"></script>
+```
+
+Using unpkg CDN:
+
+```
+<script src="https://unpkg.com/jquery-petite@1.0.8/dist/jquery-petite.js"></script>
+```
 
 ## Selector
 
@@ -200,4 +220,34 @@ $("input").val("my-value");
 var inputValue = $("#my-input").val();
 ```
 
-#### The find() method is expected very soon.
+### children()
+
+children() is used to get the children of each element in the set of matched elements, optionally filtered by a selector.
+
+#### Example, get all the children from a div with the id of "my-div".
+
+```
+var children = $("#my-div").children();
+```
+
+#### Example with a filter, get all image children from a div with the id of "my-div".
+
+```
+var children = $("#my-div").children("img");
+```
+
+The find() method is expected very soon.
+
+## Contribute
+
+Feel free to contribute to this project. To contribute, just submit a pull request on the github repository. Also if you found this package useful please star the github repository.
+
+[https://github.com/C01inn/mini-jquery](https://github.com/C01inn/mini-jquery)
+
+## Donate
+
+If you found this project useful leaving a donation would be a great way to say thank you.
+
+<p><span style="color: rgb(245, 158, 11)">Bitcoin (BTC): </span>bc1qayuernfkp2smvffcdr7flufpmuwz5jke4d8cwj</p>
+<p><span style="color: rgb(59, 130, 246)">Ethereum (ETH): </span>0x93746170CA09F785E79Ac9504568EbD0F3778D1e</p>
+<p><span style="color: rgb(217, 119, 6)">Monero (XMR): </span>4696R5zcpDKfGhrST5FiQHhmHMXXSTGMQbi4ecbTwrYxRCoU1FcDvFfbEJQsD8y2VSg4CAMdsNnLLY8ApavrEofPE7XQePn</p>
