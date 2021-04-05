@@ -13,13 +13,13 @@ npm install --save jquery-petite
 Using jsDelivr CDN:
 
 ```
-<script src="https://cdn.jsdelivr.net/npm/jquery-petite@1.0.8/dist/jquery-petite.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-petite@1.0.91/dist/jquery-petite.js"></script>
 ```
 
 Using unpkg CDN:
 
 ```
-<script src="https://unpkg.com/jquery-petite@1.0.8/dist/jquery-petite.js"></script>
+<script src="https://unpkg.com/jquery-petite@1.0.91/dist/jquery-petite.js"></script>
 ```
 
 ## Selector
