@@ -236,6 +236,28 @@ var children = $("#my-div").children();
 var children = $("#my-div").children("img");
 ```
 
+### get()
+
+get() is used to get the vanilla html element from a jqueryPetiteElement.
+
+### Example, get all the images as vanilla html elements.
+
+```
+var images = $("img").get(); // returns elements in an array
+```
+
+### Example, get the first image as an html element.
+
+```
+var image = $("img").get(0); // takes an optional index parameter
+```
+
+### Example, get the last image as an html element.
+
+```
+var image = $("img").get(-1); // supports negative indexing
+```
+
 The find() method is expected very soon.
 
 ## Contribute

@@ -121,9 +121,28 @@ class jQueryPetiteElement {
     }
     // set atrributes
     attr(name, value) {
-        for (let i=0;i<this.allElements.length;i++) {
-            this.allElements[i].setAttribute(name, value);
+
+        if (typeof value === "function") {
+            for (let i=0; i<this.allElements.length;i++) {
+                this.allElements[i].setAttribute(name, value(i, this.allElements[i][name]));
+            }
+        } else if (typeof name === "object" && name !== null) {
+            for (let key in name) {
+                for (let i=0; i<this.allElements.length;i++) {
+                    this.allElements[i].setAttribute(key, name[key]);
+                }
+            }
+        } else if (value === undefined || value === null) {
+            if (this.allElements.length >= 1) {
+                return this.allElements[0][name]
+            }
+            return undefined
+        } else {
+            for(let i=0; i<this.allElements.length;i++) {
+                this.allElements[i].setAttribute(name, value)
+            }
         }
+        
     }
     // call function for each element
     each(callback) {
@@ -247,6 +266,22 @@ class jQueryPetiteElement {
             return new jQueryPetiteElement(allChilds[0], allChilds)
         }
         return new jQueryPetiteElement(null, [])
+    }
+    // get raw html element
+    get(index) {
+        // return all elements as an array
+        if (index === undefined) {
+            return Array.from(this.allElements)
+        }
+        // return element at index user passed in
+        if (index >= 0) {
+            return this.allElements[index]
+        }
+        // return element at a negitive index the user passed in
+        if (index < 0) {
+            return this.allElements[this.allElements.length - (0 - (index))]
+        }
+
     }
 }
 
